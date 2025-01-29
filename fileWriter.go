@@ -7,7 +7,7 @@ import (
 
 func WriteFile(filename string, data []string) {
 
-	file, _ := os.OpenFile(filename+".txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	file, _ := os.OpenFile(filename+".txt", os.O_CREATE|os.O_WRONLY, 0644)
 	defer file.Close()
 
 	datawriter := bufio.NewWriter(file)
