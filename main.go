@@ -4,25 +4,30 @@ import (
 	"fmt"
 	"strings"
 
-	s "com.picode/collect-links-go/ScrapLinks"
+	"com.picode/collect-links-go/link-collector"
 )
 
 func main() {
 	for {
-		url, err := GetUserInput("Enter URL You want to Scan: ")
+		inputUrl, err := GetUserInput("Enter URL You want to Scan: ")
+
 		if err != nil {
 			fmt.Println("Enter a Valid URL")
 			continue
 		}
-		fmt.Printf("Start Processing for URL: %s...\n", url)
-		links, err := s.ScrapLinks(url)
+
+		fmt.Printf("Start Processing for URL: %s...\n", inputUrl)
+
+		linkCollector := link_collector.New(inputUrl)
+
+		err = linkCollector.CollectLinks()
 		if err != nil {
 			fmt.Println(err)
 			continue
 		}
-		splittedUrl := strings.Split(url, ".")
-		WriteFile(splittedUrl[1], links)
-		fmt.Printf("JOB DONE for URL: %s...\n", url)
+		splittedUrl := strings.Split(inputUrl, ".")
+		WriteFile(splittedUrl[1], linkCollector.GetLinks())
+		fmt.Printf("JOB DONE for URL: %s...\n", inputUrl)
 
 	}
 }
